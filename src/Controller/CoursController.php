@@ -138,5 +138,26 @@ class CoursController extends AbstractController
         ]);
     }
 
+     /**
+     * @Route("/favoris_remove/{id}" , name="favoris_remove")
+     */
+    public function favorisRemove(Cours $cour){
+        
+        $cour = $cour->setFavoris(0);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+        $cours= $this->getDoctrine()->getRepository(Cours::class)->findBy(['favoris' => 1]);
+        $formation = $this->getDoctrine()
+        ->getRepository(Formation::class)
+        ->findAll();
+        return $this->render("cours/favoris.html.twig",[
+            'cours' => $cours,
+            'forms' => $formation
+        ]);
+    }
+
+
+   
+
 
 }
